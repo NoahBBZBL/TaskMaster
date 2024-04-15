@@ -1,12 +1,9 @@
 package taskmaster.Tag;
 
 import jakarta.persistence.*;
-import lombok.Data;
-
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-
-import java.util.List;
+import lombok.Data;
 
 @Data
 @Entity
@@ -18,16 +15,31 @@ public class Tag {
     @Column(name = "tag_id")
     private Long tagId;
 
-    @Column(nullable = false)
-    @NotEmpty()
+    @Column(nullable = false, length = 255)
+    @NotEmpty
     @Size(max = 255)
     private String name;
 
-    public Tag(Long tagId, String name) {
-        this.tagId = tagId;
+    public Tag(String name) {
         this.name = name;
     }
 
     public Tag() {
+    }
+
+    public Long getTagId() {
+        return tagId;
+    }
+
+    public void setTagId(Long tagId) {
+        this.tagId = tagId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

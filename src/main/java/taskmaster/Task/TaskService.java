@@ -8,30 +8,31 @@ import java.util.List;
 
 @Service
 public class TaskService {
-private final TaskRepository repository;
+    private final TaskRepository repository;
 
     public TaskService(TaskRepository taskRepository) {
         this.repository = taskRepository;
     }
+
     public List<Task> getTasks() {
         return repository.findByOrderByNameAsc();
     }
+
     public Task getTask(Long id) {
-        return repository.findById(String.valueOf(id))
-                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id), Task.class));
+        return repository.findById(String.valueOf(id)).orElseThrow(() -> new EntityNotFoundException("Task with id: " + id + " not found"));
     }
+
     public Task insertTask(Task task) {
         return repository.save(task);
     }
 
     public Task updateTask(Task task, Long id) {
-        return repository.findById(id)
-                .map(taskOrig -> {
-                    taskOrig.setName(task.getName());
-                    return repository.save(taskOrig);
-                })
-                .orElseGet(() -> repository.save(task));
+        return repository.findById(String.valueOf(id)).map(taskOrig -> {
+            taskOrig.setTitle(task.getTitle());
+            return repository.save(taskOrig);
+        }).orElseGet(() -> repository.save(task));
     }
+
     public MessageResponse deleteTask(Long id) {
         repository.deleteById(String.valueOf(id));
         return new MessageResponse("Task " + id + " deleted");

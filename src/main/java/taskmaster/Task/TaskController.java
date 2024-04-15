@@ -1,6 +1,5 @@
 package taskmaster.Task;
 
-
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
@@ -34,21 +33,21 @@ public class TaskController {
     @GetMapping("api/task/{id}")
     @RolesAllowed(Roles.Read)
     public ResponseEntity<Task> one(@PathVariable Long id) {
-        Task task = TaskService.getTask(id);
+        Task task = taskService.getTask(id);
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
     @PostMapping("api/task")
     @RolesAllowed(Roles.Admin)
-    public ResponseEntity<Task> newTask(@Valid @RequestBody Task Task) {
-        Task savedTask = TaskService.insertTask(Task);
+    public ResponseEntity<Task> newTask(@Valid @RequestBody Task task) {
+        Task savedTask = taskService.insertTask(task);
         return new ResponseEntity<>(savedTask, HttpStatus.OK);
     }
 
     @PutMapping("api/task/{id}")
     @RolesAllowed(Roles.Admin)
     public ResponseEntity<Task> updateTask(@Valid @RequestBody Task task, @PathVariable Long id) {
-        Task savedTask = TaskService.updateTask(task, id);
+        Task savedTask = taskService.updateTask(task, id);
         return new ResponseEntity<>(savedTask, HttpStatus.OK);
     }
 
@@ -60,7 +59,5 @@ public class TaskController {
         } catch (Throwable t) {
             return ResponseEntity.internalServerError().build();
         }
-
-
     }
 }

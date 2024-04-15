@@ -7,6 +7,7 @@ import taskmaster.Task.Task;
 
 @Data
 @Entity
+@Table(name = "category")
 public class Category {
 
     @Id
@@ -19,14 +20,29 @@ public class Category {
     private String title;
 
     @ManyToOne
-    @JoinColumn(name = "task_id", referencedColumnName = "task_id")
+    @JoinColumn(name = "task_id")
     private Task task;
-
 
     public Category(String title) {
         this.title = title;
     }
 
     public Category() {
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
