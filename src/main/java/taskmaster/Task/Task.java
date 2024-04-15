@@ -14,7 +14,7 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "task_id")
-    private Integer taskId;
+    private Long taskId;
 
     @Column(nullable = false)
     @NotEmpty

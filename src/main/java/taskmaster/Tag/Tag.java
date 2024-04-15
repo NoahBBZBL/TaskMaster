@@ -16,14 +16,14 @@ public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tag_id")
-    private Integer tagId;
+    private Long tagId;
 
     @Column(nullable = false)
     @NotEmpty()
     @Size(max = 255)
     private String name;
 
-    public Tag(Integer tagId, String name) {
+    public Tag(Long tagId, String name) {
         this.tagId = tagId;
         this.name = name;
     }
