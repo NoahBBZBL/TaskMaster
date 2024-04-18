@@ -5,36 +5,49 @@ import org.springframework.stereotype.Service;
 import taskmaster.MessageResponse;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryService {
-    private final CategoryRepository repository;
+    private final CategoryRepository categoryRepository;
 
     public CategoryService(CategoryRepository categoryRepository) {
-        this.repository = categoryRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     public List<Category> getCategories() {
-        return repository.findByOrderByNameAsc();
+        return categoryRepository.findByOrderByNameAsc();
     }
 
     public Category getCategory(Long id) {
-        return repository.findById(String.valueOf(id)).orElseThrow(() -> new EntityNotFoundException("Category with id: " + id + " not found"));
+        return categoryRepository.findById(String.valueOf(id))
+                .orElseThrow(() -> new EntityNotFoundException("Category with id: " + id + " not found"));
     }
 
-    public Category insertCategory(Category category) {
-        return repository.save(category);
+    public Category createCategory(Category category) {
+        if (category == null) {
+            throw new IllegalArgumentException("Category cannot be null");
+        }
+        return categoryRepository.save(category);
     }
 
     public Category updateCategory(Category category, Long id) {
-        return repository.findById(String.valueOf(id)).map(categoryOrig -> {
-            categoryOrig.setTitle(category.getTitle());
-            return repository.save(categoryOrig);
-        }).orElseGet(() -> repository.save(category));
+        Optional<Category> optionalCategory = categoryRepository.findById(String.valueOf(id));
+        if (optionalCategory.isPresent()) {
+            Category existingCategory = optionalCategory.get();
+            existingCategory.setTitle(category.getTitle());
+            return categoryRepository.save(existingCategory);
+        } else {
+            throw new EntityNotFoundException("Category with id: " + id + " not found");
+        }
     }
 
     public MessageResponse deleteCategory(Long id) {
-        repository.deleteById(String.valueOf(id));
-        return new MessageResponse("Category " + id + " deleted");
+        if (categoryRepository.existsById(String.valueOf(id))) {
+            categoryRepository.deleteById(String.valueOf(id));
+            return new MessageResponse("Category " + String.valueOf(id) + " deleted");
+        } else {
+            throw new EntityNotFoundException("Category with id: " + id + " not found");
+        }
     }
 }
