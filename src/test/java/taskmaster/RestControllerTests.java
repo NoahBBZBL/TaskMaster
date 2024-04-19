@@ -90,7 +90,7 @@ public class RestControllerTests {
         api.perform(delete("/api/category/1")
                         .header("Authorization", "Bearer " + accessToken).with(csrf()))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     private String obtainAccessToken() {
@@ -100,10 +100,10 @@ public class RestControllerTests {
         String body = "client_id=taskmaster&" +
                 "grant_type=password&" +
                 "scope=openid profile roles offline_access&" +
-                "username=user&" +
+                "username=admin&" +
                 "password=admin";
         HttpEntity<String> entity = new HttpEntity<>(body, headers);
-        ResponseEntity<String> resp = rest.postForEntity(" http://localhost:8080/realms/TaskMaster/protocol/openid-connect/token", entity, String.class);
+        ResponseEntity<String> resp = rest.postForEntity("http://localhost:8080/realms/TaskMaster/protocol/openid-connect/token", entity, String.class);
         JacksonJsonParser jsonParser = new JacksonJsonParser();
         return jsonParser.parseMap(resp.getBody()).get("access_token").toString();
     }
