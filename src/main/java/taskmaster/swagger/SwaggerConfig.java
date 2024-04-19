@@ -1,4 +1,3 @@
-
 package taskmaster.swagger;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
