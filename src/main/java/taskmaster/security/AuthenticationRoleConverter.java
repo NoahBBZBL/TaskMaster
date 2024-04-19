@@ -27,11 +27,11 @@ public class AuthenticationRoleConverter implements Converter<Jwt, AbstractAuthe
         Collection<String> resourceRoles;
         if (resourceAccess != null) {
             Map<String, Collection<String>> taskmaster = (Map<String, Collection<String>>) resourceAccess.get("taskmaster");
-          if ((resourceRoles = taskmaster.get("roles")) != null) {
-              return resourceRoles.stream()
-                      .map(SimpleGrantedAuthority::new)
-                      .collect(Collectors.toSet());
-          }
+            if ((resourceRoles = taskmaster.get("roles")) != null) {
+                return resourceRoles.stream()
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toSet());
+            }
         }
         return Collections.emptySet();
     }
