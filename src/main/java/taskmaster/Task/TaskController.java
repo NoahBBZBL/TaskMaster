@@ -13,7 +13,7 @@ import taskmaster.security.Roles;
 import java.util.List;
 
 @RestController
-@SecurityRequirement(name = "admin")
+@SecurityRequirement(name = "bearerAuth")
 @Validated
 public class TaskController {
 

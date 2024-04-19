@@ -23,9 +23,5 @@ public class Task_Tag {
     @JoinColumn(name = "tag_id", referencedColumnName = "tag_id")
     private Tag tag;
 
-    public Task_Tag(Task task, Tag tag) {
-        this.task = task;
-        this.tag = tag;
-    }
 
 }

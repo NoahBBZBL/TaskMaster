@@ -1,8 +1,7 @@
 package taskmaster.Tag;
 
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
-import taskmaster.MessageResponse;
+import taskmaster.storage.EntityNotFoundException;
 
 import java.util.List;
 
@@ -14,13 +13,13 @@ public class TagService {
         this.repository = tagRepository;
     }
 
-    public List<Tag> getTags() {
-        return repository.findByOrderByNameAsc();
+    public List<Tag> getAllTags() {
+        return repository.findByOrderByTitleAsc();
     }
 
     public Tag getTag(Long id) {
         return repository.findById(String.valueOf(id))
-                .orElseThrow(() -> new EntityNotFoundException("Tag with id: " + id + " not found"));
+                .orElseThrow(() -> new EntityNotFoundException(id, Tag.class));
     }
 
     public Tag insertTag(Tag tag) {
@@ -30,14 +29,16 @@ public class TagService {
     public Tag updateTag(Tag tag, Long id) {
         return repository.findById(String.valueOf(id))
                 .map(tagOrig -> {
-                    tagOrig.setName(tag.getName());
+                    tagOrig.setTitle(tag.getTitle());
                     return repository.save(tagOrig);
                 })
                 .orElseGet(() -> repository.save(tag));
     }
 
-    public MessageResponse deleteTag(Long id) {
-        repository.deleteById(String.valueOf(id));
-        return new MessageResponse("Tag " + id + " deleted");
+    public void deleteTag(Long id) {
+        if (!repository.existsById(id.toString())) {
+            throw new EntityNotFoundException(id, Tag.class);
+        }
+        repository.deleteById(id.toString());
     }
 }

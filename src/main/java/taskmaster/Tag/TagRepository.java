@@ -7,5 +7,5 @@ import java.util.List;
 
 @Repository
 public interface TagRepository extends JpaRepository<Tag, String> {
-    List<Tag> findByOrderByNameAsc();
+    List<Tag> findByOrderByTitleAsc();
 }

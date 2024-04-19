@@ -7,13 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import taskmaster.MessageResponse;
 import taskmaster.security.Roles;
 
 import java.util.List;
 
 @RestController
-@SecurityRequirement(name = "admin")
+@SecurityRequirement(name = "bearerAuth")
 @Validated
 public class CategoryController {
 
@@ -53,11 +52,8 @@ public class CategoryController {
 
     @DeleteMapping("api/category/{id}")
     @RolesAllowed(Roles.Admin)
-    public ResponseEntity<MessageResponse> deleteCategory(@PathVariable Long id) {
-        try {
-            return ResponseEntity.ok(categoryService.deleteCategory(id));
-        } catch (Throwable t) {
-            return ResponseEntity.internalServerError().build();
-        }
+    public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
+        categoryService.deleteCategory(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -15,7 +15,7 @@ public class TaskService {
     }
 
     public List<Task> getTasks() {
-        return repository.findByOrderByNameAsc();
+        return repository.findByOrderByTitleAsc();
     }
 
     public Task getTask(Long id) {

@@ -19,30 +19,20 @@ public class Category {
     @NotEmpty
     private String title;
 
+    @Column(nullable = true)
+    private String color;
+
     @ManyToOne
     @JoinColumn(name = "task_id")
     private Task task;
 
-    public Category(String title) {
+    public Category(String title, String color) {
         this.title = title;
+        this.color = color;
     }
 
     public Category() {
     }
 
-    public Long getCategoryId() {
-        return categoryId;
-    }
 
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 }

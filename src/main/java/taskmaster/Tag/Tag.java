@@ -7,7 +7,6 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "tag")
 public class Tag {
 
     @Id
@@ -18,28 +17,7 @@ public class Tag {
     @Column(nullable = false, length = 255)
     @NotEmpty
     @Size(max = 255)
-    private String name;
+    private String title;
 
-    public Tag(String name) {
-        this.name = name;
-    }
 
-    public Tag() {
-    }
-
-    public Long getTagId() {
-        return tagId;
-    }
-
-    public void setTagId(Long tagId) {
-        this.tagId = tagId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
