@@ -8,10 +8,10 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/taskmaster
     username: postgres
-    password: Hallo2024
+    password: "Hallo2024"
     driverClassName: org.postgresql.Driver
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/ILV
+          issuer-uri: http://localhost:8080/realms/TaskMaster

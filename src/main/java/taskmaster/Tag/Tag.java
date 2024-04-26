@@ -4,10 +4,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import taskmaster.Task.Task;
+
+import java.util.List;
 
 @Data
 @Entity
-@Table(name = "tag")
 public class Tag {
 
     @Id
@@ -15,31 +17,11 @@ public class Tag {
     @Column(name = "tag_id")
     private Long tagId;
 
-    @Column(nullable = false, length = 255)
     @NotEmpty
     @Size(max = 255)
-    private String name;
+    @Column(nullable = false, length = 255)
+    private String title;
 
-    public Tag(String name) {
-        this.name = name;
-    }
-
-    public Tag() {
-    }
-
-    public Long getTagId() {
-        return tagId;
-    }
-
-    public void setTagId(Long tagId) {
-        this.tagId = tagId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    @ManyToMany(mappedBy = "tags", cascade = CascadeType.ALL)
+    private List<Task> tasks;
 }

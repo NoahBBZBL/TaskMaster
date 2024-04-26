@@ -2,7 +2,7 @@ package taskmaster.Task;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
-import taskmaster.MessageResponse;
+import taskmaster.Message.MessageResponse;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class TaskService {
     }
 
     public List<Task> getTasks() {
-        return repository.findByOrderByNameAsc();
+        return repository.findByOrderByTitleAsc();
     }
 
     public Task getTask(Long id) {

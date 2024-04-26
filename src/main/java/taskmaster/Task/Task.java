@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import taskmaster.Category.Category;
+import taskmaster.Tag.Tag;
 
 import java.util.List;
 
@@ -17,46 +18,19 @@ public class Task {
     @Column(name = "task_id")
     private Long taskId;
 
-    @Column(nullable = false)
     @NotEmpty
+    @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
     @NotEmpty
+    @Column(nullable = false)
     private String description;
 
-    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Category> categories;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "task_tag", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private List<Tag> tags;
 
-    public Task(String title, String description) {
-        this.title = title;
-        this.description = description;
-    }
-
-    public Task() {
-    }
-
-    public Long getTaskId() {
-        return taskId;
-    }
-
-    public void setTaskId(Long taskId) {
-        this.taskId = taskId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 }

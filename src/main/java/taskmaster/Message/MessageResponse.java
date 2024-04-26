@@ -1,4 +1,4 @@
-package taskmaster;
+package taskmaster.Message;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

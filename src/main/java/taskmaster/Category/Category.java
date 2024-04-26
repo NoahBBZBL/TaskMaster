@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import taskmaster.Task.Task;
 
+import java.util.List;
+
 @Data
 @Entity
 @Table(name = "category")
@@ -15,34 +17,22 @@ public class Category {
     @Column(name = "category_id")
     private Long categoryId;
 
-    @Column(nullable = false)
     @NotEmpty
+    @Column(nullable = false)
     private String title;
 
-    @ManyToOne
-    @JoinColumn(name = "task_id")
-    private Task task;
+    @NotEmpty
+    @Column(nullable = false)
+    private String color;
 
-    public Category(String title) {
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Task> tasks;
+
+    public Category(String title, String color) {
         this.title = title;
+        this.color = color;
     }
 
     public Category() {
-    }
-
-    public Long getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 }

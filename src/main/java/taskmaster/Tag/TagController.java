@@ -7,13 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import taskmaster.MessageResponse;
 import taskmaster.security.Roles;
 
 import java.util.List;
 
 @RestController
-@SecurityRequirement(name = "admin")
+@SecurityRequirement(name = "bearerAuth")
 @Validated
 public class TagController {
 
@@ -26,7 +25,7 @@ public class TagController {
     @GetMapping("api/tag")
     @RolesAllowed(Roles.Read)
     public ResponseEntity<List<Tag>> all() {
-        List<Tag> result = tagService.getTags();
+        List<Tag> result = tagService.getAllTags();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -53,11 +52,8 @@ public class TagController {
 
     @DeleteMapping("api/tag/{id}")
     @RolesAllowed(Roles.Admin)
-    public ResponseEntity<MessageResponse> deleteTag(@PathVariable Long id) {
-        try {
-            return ResponseEntity.ok(tagService.deleteTag(id));
-        } catch (Throwable t) {
-            return ResponseEntity.internalServerError().build();
-        }
+    public ResponseEntity<?> deleteTag(@PathVariable Long id) {
+        tagService.deleteTag(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

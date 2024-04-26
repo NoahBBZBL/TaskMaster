@@ -2,7 +2,6 @@ package taskmaster.Category;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
-import taskmaster.MessageResponse;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +15,7 @@ public class CategoryService {
     }
 
     public List<Category> getCategories() {
-        return categoryRepository.findByOrderByNameAsc();
+        return categoryRepository.findByOrderByTitleAsc();
     }
 
     public Category getCategory(Long id) {
@@ -24,7 +23,7 @@ public class CategoryService {
                 .orElseThrow(() -> new EntityNotFoundException("Category with id: " + id + " not found"));
     }
 
-    public Category createCategory(Category category) {
+    public Category insertCategory(Category category) {
         if (category == null) {
             throw new IllegalArgumentException("Category cannot be null");
         }
@@ -42,12 +41,10 @@ public class CategoryService {
         }
     }
 
-    public MessageResponse deleteCategory(Long id) {
-        if (categoryRepository.existsById(String.valueOf(id))) {
-            categoryRepository.deleteById(String.valueOf(id));
-            return new MessageResponse("Category " + String.valueOf(id) + " deleted");
-        } else {
-            throw new EntityNotFoundException("Category with id: " + id + " not found");
+    public void deleteCategory(Long id) {
+        if (!categoryRepository.existsById(id.toString())) {
+            throw new taskmaster.storage.EntityNotFoundException(id, Category.class);
         }
+        categoryRepository.deleteById(id.toString());
     }
 }

@@ -7,13 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import taskmaster.MessageResponse;
+import taskmaster.Message.MessageResponse;
 import taskmaster.security.Roles;
 
 import java.util.List;
 
 @RestController
-@SecurityRequirement(name = "admin")
+@SecurityRequirement(name = "bearerAuth")
 @Validated
 public class TaskController {
 
